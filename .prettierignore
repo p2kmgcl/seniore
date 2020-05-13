@@ -1,0 +1,7 @@
+*.png
+build
+LICENSE
+.editorconfig
+.gitignore
+.eslintignore
+.prettierignore

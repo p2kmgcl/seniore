@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "outDir": "build",
+    "lib": ["esnext.asynciterable"],
+    "resolveJsonModule": true,
+    "strict": true,
+    "target": "ES5"
+  }
+}
