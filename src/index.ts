@@ -1,5 +1,6 @@
 import { Command } from 'commander';
-import { version } from '../package.json';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { init } from './commands/init';
 import { checkoutPullRequest } from './commands/checkout-pull-request';
 import { sendPullRequest } from './commands/send-pull-request';
@@ -9,6 +10,10 @@ import { listNotifications } from './commands/list-notifications';
 import { LogService } from './services/LogService';
 
 const program = new Command();
+
+const { version } = JSON.parse(
+  readFileSync(resolve(__dirname, '../package.json'), 'utf-8'),
+);
 
 const unindent = (str: string): string =>
   str

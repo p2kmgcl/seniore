@@ -2,7 +2,6 @@ import { resolve } from 'path';
 import { existsSync, readFileSync, unlinkSync } from 'fs';
 import { writeFileSync } from 'fs';
 import { homedir } from 'os';
-import { repository } from '../../package.json';
 import { LogService } from './LogService';
 
 interface Config {
@@ -17,6 +16,10 @@ interface Config {
 }
 
 const CONFIG_PATH = resolve(homedir(), '.seniore.json');
+
+const { repository } = JSON.parse(
+  readFileSync(resolve(__dirname, '../../package.json'), 'utf-8'),
+);
 
 const DEFAULT_CONFIG: Config = {
   $spec: `${repository.url}/blob/master/types/config.d.ts`,
