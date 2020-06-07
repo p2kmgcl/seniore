@@ -9,6 +9,11 @@
     "url": "https://github.com/p2kmgcl/seniore"
   },
   "main": "build/src/index.js",
+  "files": [
+    "package.json",
+    "bin/seniore",
+    "build/**/*"
+  ],
   "bin": {
     "seniore": "bin/seniore",
     "s": "bin/seniore"
