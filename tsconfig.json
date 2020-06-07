@@ -8,7 +8,6 @@
     "noImplicitThis": true,
     "outDir": "build",
     "lib": ["esnext.asynciterable"],
-    "resolveJsonModule": true,
     "strict": true,
     "target": "ES5"
   }
