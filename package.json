@@ -31,8 +31,8 @@
     "*.tsx": "eslint --max-warnings 0 --fix"
   },
   "engines": {
-    "node": "10+",
-    "npm": "6+"
+    "node": ">=10",
+    "npm": ">=6"
   },
   "dependencies": {
     "@octokit/rest": "^17.8.0",
