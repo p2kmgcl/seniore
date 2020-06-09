@@ -1,6 +1,6 @@
 import commander from 'commander';
-import { AppService } from '../services/AppService';
-import { LogService } from '../services/LogService';
+import { AppService } from './services/AppService';
+import { LogService } from './services/LogService';
 
 interface CommandDefinition {
   command: string;
