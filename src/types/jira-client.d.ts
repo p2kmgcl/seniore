@@ -24,7 +24,7 @@ declare module 'jira-client' {
     });
 
     listTransitions(issueId: string): Promise<{ transitions: Transition[] }>;
-    getIssuesForBoard(boardId: string): Promise<Issue[]>;
+    getIssuesForBoard(boardId: string): Promise<{ issues: Issue[] }>;
 
     transitionIssue(
       issueId: string,
