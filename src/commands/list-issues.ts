@@ -1,4 +1,4 @@
-import { defineCommand } from '../common/define-command';
+import { defineCommand } from '../define-command';
 import { AppService } from '../services/AppService';
 
 export const listIssues = defineCommand({

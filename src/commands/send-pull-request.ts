@@ -1,4 +1,4 @@
-import { defineCommand } from '../common/define-command';
+import { defineCommand } from '../define-command';
 import { AppService } from '../services/AppService';
 
 const BRANCH_NAME_PATTERN = /^pr\/([a-zA-Z0-9-]+)\/([0-9]+)$/i;
