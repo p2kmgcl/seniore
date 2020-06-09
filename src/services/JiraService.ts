@@ -30,7 +30,7 @@ export class JiraService {
   }
 
   async getBoardIssues(boardId: string): Promise<Issue[]> {
-    const issues = await this.jira.getIssuesForBoard(boardId);
+    const { issues } = await this.jira.getIssuesForBoard(boardId);
 
     return issues.map((issue) => ({
       key: issue.key,
