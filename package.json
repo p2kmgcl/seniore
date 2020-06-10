@@ -40,7 +40,7 @@
     "npm": ">=6"
   },
   "dependencies": {
-    "@octokit/rest": "^17.8.0",
+    "@octokit/rest": "^17.11.0",
     "commander": "^5.1.0",
     "date-fns": "^2.13.0",
     "execa": "^4.0.0",
