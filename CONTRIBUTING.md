@@ -20,7 +20,7 @@ In order to test your changes without having them published, you can use
 
 When you create your contribution, please keep this list in mind:
 
-- Start from the existing `develop` branch and add your changes.
+- Start from the existing `master` branch and add your changes.
   **Use [conventional commits][1] to write your commit messages**.
 - Create your contribution.
 - Ensure any install or build dependencies are removed before the end of the
@@ -29,21 +29,18 @@ When you create your contribution, please keep this list in mind:
 - Ensure that it passes all tests and linting process and includes needed
   documentation.
 - **Do not change the version number manually** (see [Release Cycle][2]).
-- Create your pull request against `develop` branch and resolve any
+- Create your pull request against `master` branch and resolve any
   conflicts if necessary.
 
 ## Release Cycle
 
-We use semver for every release, but we may publish more requests at once.
-Whenever we need to create a new release, `develop` branch is merged into
-master, and:
+We use semver for every release, and continuous release is automatically
+done with CI. However, we should be manually checking repository health status
+time by time:
 
-1. Check if you need any of these changes:
-   - `docs: x` update outdated documentation.
-   - `chore: Update/Remove x` update dependencies (`npm audit`, `npm outdated`).
-   - `fix: x` run all tests and linters.
-2. Create a PR and merge into `develop` (if needed).
-3. Create a PR merging `develop` into `master`.
+- `docs: x` update outdated documentation.
+- `chore: Update/Remove x` update dependencies (`npm audit`, `npm outdated`).
+- `fix: x` run all tests and linters.
 
 [1]: https://www.conventionalcommits.org/en/v1.0.0/#specification
 [2]: https://github.com/p2kmgcl/seniore/blob/master/CONTRIBUTING.md#release-cycle
