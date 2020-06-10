@@ -5,3 +5,5 @@ LICENSE
 .gitignore
 .eslintignore
 .prettierignore
+package.json
+package-lock.json
