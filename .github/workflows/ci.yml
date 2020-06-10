@@ -48,6 +48,7 @@ jobs:
         id: changelog
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          release-count: 1
           output-file: false
       - name: Create Release
         uses: actions/create-release@v1
