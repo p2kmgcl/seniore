@@ -115,7 +115,7 @@ export class GitHubService {
     ref: string,
   ): Promise<RefStatus> {
     const statuses = await this.octokit.repos
-      .listStatusesForRef({
+      .listCommitStatusesForRef({
         ref,
         owner,
         repo,
