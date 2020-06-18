@@ -31,7 +31,7 @@ const DEFAULT_CONFIG: Config = {
 };
 
 export class ConfigService {
-  private cachedConfig: null | Config = null;
+  private static CACHED_CONFIG: null | Config = null;
   private log: LogService;
 
   constructor({ log }: { log: LogService }) {
@@ -63,15 +63,20 @@ export class ConfigService {
 
   getConfig(): Config {
     try {
-      this.cachedConfig =
-        this.cachedConfig ||
+      ConfigService.CACHED_CONFIG =
+        ConfigService.CACHED_CONFIG ||
         (JSON.parse(readFileSync(CONFIG_PATH, 'utf-8')) as Config);
-
-      return this.cachedConfig;
     } catch (error) {
-      throw new Error(
-        'Invalid config file. You can create a new one with init command.',
+      ConfigService.CACHED_CONFIG = DEFAULT_CONFIG;
+
+      this.log.logText(
+        'Invalid config file. You can create a new one with init command.\n',
+        {
+          error: true,
+        },
       );
     }
+
+    return ConfigService.CACHED_CONFIG;
   }
 }
