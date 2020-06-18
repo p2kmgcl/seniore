@@ -7,7 +7,18 @@ const COMMIT_MESSAGE_PATTERN = /^(LPS-[0-9]+)[ ]*(.*)$/i;
 export const sendPullRequest = defineCommand({
   command: 'send-pull-request <username>',
   description: 'send current branch as PR',
-  handler: async (app: AppService, targetOwner: string) => {
+  options: [
+    {
+      definition: '--forward',
+      description: 'add ci:forward comment to the created pull-request',
+      defaultValue: false,
+    },
+  ],
+  handler: async (
+    app: AppService,
+    targetOwner: string,
+    { forward }: { forward: boolean },
+  ) => {
     const config = app.config.getConfig();
 
     const title = await app.git.getLastCommitMessage();
@@ -26,7 +37,7 @@ export const sendPullRequest = defineCommand({
       title,
     });
 
-    if (targetOwner === 'liferay-echo') {
+    if (forward) {
       await app.gitHub.addCommentToPullRequest(
         targetOwner,
         repo,
