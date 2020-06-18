@@ -1,12 +1,13 @@
 import React, { FC, useMemo, useEffect, useState } from 'react';
-import { Box, useStdout } from 'ink';
+import { Box, Color, useStdout } from 'ink';
 
 interface TableProps {
   columnWidths: (number | 'auto')[];
+  headings: string[];
   rows: string[][];
 }
 
-export const Table: FC<TableProps> = ({ columnWidths, rows }) => {
+export const Table: FC<TableProps> = ({ columnWidths, headings, rows }) => {
   const { stdout } = useStdout();
   const [maxColumns, setMaxColumns] = useState(stdout.columns || 100);
   const isVariable = (width: number | 'auto'): width is 'auto' =>
@@ -60,6 +61,14 @@ export const Table: FC<TableProps> = ({ columnWidths, rows }) => {
 
   return (
     <>
+      <Box width={maxColumns}>
+        {headings.map((heading, index) => (
+          <Box key={heading} width={widths[index] + 1}>
+            <Color dim>{heading.substr(0, widths[index])}</Color>
+          </Box>
+        ))}
+      </Box>
+
       {rows.map((row) => (
         <Box key={row.join()} width={maxColumns}>
           {row.map((col, index) => (

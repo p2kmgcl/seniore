@@ -17,10 +17,12 @@ export const Lines: React.FC<LineProps> = ({ lines }) => {
   return (
     <Table
       columnWidths={[10, 'auto', 15, 15]}
-      rows={[
-        ['id', 'title', 'username', 'status'],
-        ...lines.map((line) => [line.id, line.title, ...(line.topics || [])]),
-      ]}
+      headings={['Id', 'Title', 'Username', 'Status']}
+      rows={lines.map((line) => [
+        line.id,
+        line.title,
+        ...(line.topics || []).slice(0, 2),
+      ])}
     />
   );
 };
