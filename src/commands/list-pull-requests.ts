@@ -10,8 +10,8 @@ export const listPullRequests = defineCommand({
       description: 'repo owner (default: username from "origin")',
     },
   ],
-  handler: async (app: AppService, options: { username: string }) => {
-    const owner = options.username || (await app.git.getRepositoryOwner());
+  handler: async (app: AppService, options: { owner: string }) => {
+    const owner = options.owner || (await app.git.getRepositoryOwner());
     const repo = await app.git.getRepositoryName();
     const pullRequests = await app.gitHub.getPullRequests(owner, repo);
 
