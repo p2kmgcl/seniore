@@ -50,8 +50,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           release-count: 1
           output-file: false
+          skip-on-empty: true
       - name: Create Release
         uses: actions/create-release@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -59,5 +61,6 @@ jobs:
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
       - run: npm publish
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
