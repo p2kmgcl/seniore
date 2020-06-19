@@ -51,8 +51,16 @@ export class GitService {
     await this.runService.runCommand(`git checkout ${branch}`);
   }
 
-  async checkoutPullRequest(url: string): Promise<void> {
-    await this.runService.runCommand(`git pr ${url}`);
+  async checkoutPullRequest(
+    owner: string,
+    repo: string,
+    number: number,
+  ): Promise<void> {
+    await this.runService.runCommand(
+      `git fetch --force --update-head-ok https://github.com/${owner}/${repo} refs/pull/${number}/head:pr/${owner}/${number}`,
+    );
+
+    await this.runService.runCommand(`git checkout pr/${owner}/${number}`);
   }
 
   async deleteBranch(branch: string): Promise<void> {
@@ -66,9 +74,5 @@ export class GitService {
     await this.runService.runCommand(
       `git push ${force ? '--force' : ''} ${remote} ${branch}`,
     );
-  }
-
-  async renameBranch(newName: string): Promise<void> {
-    await this.runService.runCommand(`git branch --move ${newName}`);
   }
 }

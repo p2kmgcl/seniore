@@ -30,8 +30,7 @@ export const checkoutPullRequest = defineCommand({
     if (!pr) {
       throw new Error(`PR ${owner}/${repo}/${number} not found`);
     } else {
-      await app.git.checkoutPullRequest(pr.url);
-      await app.git.renameBranch(`pr/${owner}/${pr.number}`);
+      await app.git.checkoutPullRequest(owner, repo, number);
     }
   },
 });
