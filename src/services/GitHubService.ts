@@ -155,18 +155,26 @@ export class GitHubService {
   }
 
   async getPullRequests(owner: string, repo: string): Promise<PullRequest[]> {
-    const { data } = await this.octokit.pulls.list({
-      owner,
-      repo,
-    });
+    try {
+      const { data } = await this.octokit.pulls.list({
+        owner,
+        repo,
+      });
 
-    const pullRequests: PullRequest[] = [];
+      const pullRequests: PullRequest[] = [];
 
-    for (const pullRequest of data) {
-      pullRequests.push(await this.mapPullRequest(owner, repo, pullRequest));
+      for (const pullRequest of data) {
+        pullRequests.push(await this.mapPullRequest(owner, repo, pullRequest));
+      }
+
+      return pullRequests;
+    } catch (error) {
+      if (error && error.status === 404) {
+        throw new Error(`${owner}/${repo} repository not found`);
+      }
+
+      throw error;
     }
-
-    return pullRequests;
   }
 
   private async mapPullRequest(
