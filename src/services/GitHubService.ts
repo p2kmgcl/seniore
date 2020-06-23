@@ -58,12 +58,18 @@ export class GitHubService {
     repo: string,
     number: number,
   ): Promise<void> {
-    await this.octokit.pulls.update({
-      owner,
-      repo,
-      pull_number: number,
-      state: 'closed',
-    });
+    try {
+      await this.octokit.pulls.update({
+        owner,
+        repo,
+        pull_number: number,
+        state: 'closed',
+      });
+    } catch (error) {
+      throw new Error(
+        `Couldn't close PR https://github.com/${owner}/${repo}/pull/${number}`,
+      );
+    }
   }
 
   async createPullRequest({

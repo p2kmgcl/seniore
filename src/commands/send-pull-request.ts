@@ -75,7 +75,13 @@ export const sendPullRequest = defineCommand({
         targetPR.url,
       );
 
-      await app.gitHub.closePullRequest(sourceOwner, repo, sourceNumber);
+      try {
+        await app.gitHub.closePullRequest(sourceOwner, repo, sourceNumber);
+      } catch (error) {
+        app.log.logText(error.toString(), {
+          error: true,
+        });
+      }
     }
 
     await app.git.checkoutBranch('master');
