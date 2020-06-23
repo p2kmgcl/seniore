@@ -11,7 +11,7 @@
 
 <h4 align="center">
   Gracefully manage your GitHub and Jira workflow<br><br>
-  
+
   <a href="https://github.com/p2kmgcl/seniore/releases">
     <img alt="GitHub release" src="https://img.shields.io/github/release/p2kmgcl/seniore.svg">
   </a>
@@ -47,15 +47,15 @@ is not specified in some command, it defaults to the *origin* remote instead
 of upstream.
 
 Options:
-  --verbose-error                           show full stack trace when a fatal error occurs
-  -V, --version                             output the version number
-  -h, --help                                display help for command
+  --verbose-error                             show full stack trace when a fatal error occurs
+  -V, --version                               output the version number
+  -h, --help                                  display help for command
 
 Commands:
-  init [options]                            initialize config file
-  checkout-pull-request [options] <number>  checkout specified PR
-  send-pull-request <username>              send current branch as PR
-  list-issues <boardId>                     list JIRA board issues
-  list-pull-requests [options]              list existing pull requests
-  list-notifications [options]              list GitHub notifications
+  init|i [options]                            initialize config file
+  checkout-pull-request|c [options] <number>  checkout specified PR
+  send-pull-request|s [options] <username>    send current branch as PR
+  list-issues|li <boardId>                    list JIRA board issues
+  list-pull-requests|lp [options]             list existing pull requests
+  list-notifications|ln [options]             list GitHub notifications
 ```
