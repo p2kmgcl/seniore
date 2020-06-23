@@ -3,6 +3,7 @@ import { AppService } from '../services/AppService';
 
 export const listNotifications = defineCommand({
   command: 'list-notifications',
+  alias: 'ln',
   description: 'list GitHub notifications',
   options: [
     {

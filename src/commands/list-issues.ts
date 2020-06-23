@@ -3,6 +3,7 @@ import { AppService } from '../services/AppService';
 
 export const listIssues = defineCommand({
   command: 'list-issues <boardId>',
+  alias: 'li',
   description: 'list JIRA board issues',
   handler: async (app: AppService, boardId: string) => {
     const issues = await app.jira.getBoardIssues(boardId);

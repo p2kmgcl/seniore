@@ -4,6 +4,7 @@ import { LogService } from './services/LogService';
 
 interface CommandDefinition {
   command: string;
+  alias?: string;
   description: string;
   handler: (app: AppService, ...args: any[]) => any;
   options?: Array<{
@@ -42,6 +43,10 @@ export function defineCommand(
     let builtProgram = program
       .command(definition.command)
       .description(definition.description);
+
+    if (definition.alias) {
+      builtProgram = builtProgram.alias(definition.alias);
+    }
 
     for (const option of definition.options || []) {
       builtProgram = builtProgram.option(

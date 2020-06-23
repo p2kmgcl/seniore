@@ -3,6 +3,7 @@ import { AppService } from '../services/AppService';
 
 export const listPullRequests = defineCommand({
   command: 'list-pull-requests',
+  alias: 'lp',
   description: 'list existing pull requests',
   options: [
     {

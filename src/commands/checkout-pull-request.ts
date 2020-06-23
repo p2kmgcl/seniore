@@ -3,6 +3,7 @@ import { AppService } from '../services/AppService';
 
 export const checkoutPullRequest = defineCommand({
   command: 'checkout-pull-request <number>',
+  alias: 'c',
   description: 'checkout specified PR',
   options: [
     {
