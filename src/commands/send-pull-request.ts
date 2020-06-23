@@ -6,6 +6,7 @@ const COMMIT_MESSAGE_PATTERN = /^(LPS-[0-9]+)[ ]*(.*)$/i;
 
 export const sendPullRequest = defineCommand({
   command: 'send-pull-request <username>',
+  alias: 's',
   description: 'send current branch as PR',
   options: [
     {

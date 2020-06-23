@@ -3,6 +3,7 @@ import { AppService } from '../services/AppService';
 
 export const init = defineCommand({
   command: 'init',
+  alias: 'i',
   description: 'initialize config file',
   options: [
     {
