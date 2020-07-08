@@ -1,14 +1,15 @@
 import { defineCommand } from '../define-command';
-import { AppService } from '../services/AppService';
+import { LogService } from '../services/LogService';
+import { JiraService } from '../services/JiraService';
 
 export const listIssues = defineCommand({
   command: 'list-issues <boardId>',
   alias: 'li',
   description: 'list JIRA board issues',
-  handler: async (app: AppService, boardId: string) => {
-    const issues = await app.jira.getBoardIssues(boardId);
+  handler: async (boardId: string) => {
+    const issues = await JiraService.getBoardIssues(boardId);
 
-    app.log.logLines(
+    LogService.logLines(
       issues.map((issue) => ({
         id: issue.key,
         description: issue.description,

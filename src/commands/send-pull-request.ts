@@ -1,5 +1,9 @@
 import { defineCommand } from '../define-command';
-import { AppService } from '../services/AppService';
+import { LogService } from '../services/LogService';
+import { ConfigService } from '../services/ConfigService';
+import { GitHubService } from '../services/GitHubService';
+import { GitService } from '../services/GitService';
+import { JiraService } from '../services/JiraService';
 
 const BRANCH_NAME_PATTERN = /^pr\/([a-zA-Z0-9-]+)\/([0-9]+)$/i;
 const COMMIT_MESSAGE_PATTERN = /^(LPS-[0-9]+)[ ]*(.*)$/i;
@@ -21,20 +25,19 @@ export const sendPullRequest = defineCommand({
     },
   ],
   handler: async (
-    app: AppService,
     targetOwner: string,
     { forward, keepBranch }: { forward: boolean; keepBranch: boolean },
   ) => {
-    const config = app.config.getConfig();
+    const config = ConfigService.getConfig();
 
-    const title = await app.git.getLastCommitMessage();
-    const branch = await app.git.getCurrentBranchName();
-    const localOwner = await app.git.getRepositoryOwner();
-    const repo = await app.git.getRepositoryName();
+    const title = await GitService.getLastCommitMessage();
+    const branch = await GitService.getCurrentBranchName();
+    const localOwner = await GitService.getRepositoryOwner();
+    const repo = await GitService.getRepositoryName();
 
-    await app.git.pushBranch(branch);
+    await GitService.pushBranch(branch);
 
-    const targetPR = await app.gitHub.createPullRequest({
+    const targetPR = await GitHubService.createPullRequest({
       sourceOwner: localOwner,
       sourceBranch: branch,
       targetOwner,
@@ -44,7 +47,7 @@ export const sendPullRequest = defineCommand({
     });
 
     if (forward) {
-      await app.gitHub.addCommentToPullRequest(
+      await GitHubService.addCommentToPullRequest(
         targetOwner,
         repo,
         targetPR.number,
@@ -58,14 +61,14 @@ export const sendPullRequest = defineCommand({
       const sourceOwner = data[1];
       const sourceNumber = parseInt(data[2], 10);
 
-      const sourcePR = await app.gitHub.getPullRequest(
+      const sourcePR = await GitHubService.getPullRequest(
         sourceOwner,
         repo,
         sourceNumber,
       );
 
       if (targetOwner !== sourcePR.creator && localOwner !== sourcePR.creator) {
-        await app.gitHub.addCommentToPullRequest(
+        await GitHubService.addCommentToPullRequest(
           targetOwner,
           repo,
           targetPR.number,
@@ -73,7 +76,7 @@ export const sendPullRequest = defineCommand({
         );
       }
 
-      await app.gitHub.addCommentToPullRequest(
+      await GitHubService.addCommentToPullRequest(
         sourceOwner,
         repo,
         sourceNumber,
@@ -81,32 +84,36 @@ export const sendPullRequest = defineCommand({
       );
 
       try {
-        await app.gitHub.closePullRequest(sourceOwner, repo, sourceNumber);
+        await GitHubService.closePullRequest(sourceOwner, repo, sourceNumber);
       } catch (error) {
-        app.log.logText(error.toString(), {
+        LogService.logText(error.toString(), {
           error: true,
         });
       }
     }
 
     if (!keepBranch) {
-      await app.git.checkoutBranch('master');
-      await app.git.deleteBranch(branch);
+      await GitService.checkoutBranch('master');
+      await GitService.deleteBranch(branch);
     }
 
-    app.log.logText(targetPR.url);
+    LogService.logText(targetPR.url);
 
     if (COMMIT_MESSAGE_PATTERN.test(title)) {
       const [, issueId] = COMMIT_MESSAGE_PATTERN.exec(title) as RegExpExecArray;
       const targetJiraUser = config.githubUserToJiraUser[targetOwner];
 
       if (targetJiraUser) {
-        await app.jira.assignIssueToUser(issueId, targetJiraUser, targetPR.url);
+        await JiraService.assignIssueToUser(
+          issueId,
+          targetJiraUser,
+          targetPR.url,
+        );
       } else {
-        app.log.logText(`No JIRA user found for ${targetOwner}`);
+        LogService.logText(`No JIRA user found for ${targetOwner}`);
       }
 
-      app.log.logText(`https://${config.jira.host}/browse/${issueId}`);
+      LogService.logText(`https://${config.jira.host}/browse/${issueId}`);
     }
   },
 });

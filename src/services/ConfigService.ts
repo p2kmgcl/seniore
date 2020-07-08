@@ -21,15 +21,10 @@ const DEFAULT_CONFIG: ConfigurationSchema = {
   githubUserToJiraUser: {},
 };
 
-export class ConfigService {
-  private static CACHED_CONFIG: null | ConfigurationSchema = null;
-  private log: LogService;
+let cachedConfig: null | ConfigurationSchema = null;
 
-  constructor({ log }: { log: LogService }) {
-    this.log = log;
-  }
-
-  init({ force }: { force: boolean }): void {
+export const ConfigService = {
+  init({ force, quiet }: { force: boolean; quiet: boolean }): void {
     const createConfig = (): void => {
       writeFileSync(
         CONFIG_PATH,
@@ -37,30 +32,34 @@ export class ConfigService {
         'utf-8',
       );
 
-      this.log.logText(`${CONFIG_PATH} created`);
+      if (!quiet) {
+        LogService.logText(`${CONFIG_PATH} created`);
+      }
     };
 
     if (existsSync(CONFIG_PATH)) {
       if (force) {
         unlinkSync(CONFIG_PATH);
         createConfig();
-      } else {
-        this.log.logText(`${CONFIG_PATH} already exists, use --force to reset`);
+      } else if (!quiet) {
+        LogService.logText(
+          `${CONFIG_PATH} already exists, use --force to reset`,
+        );
       }
     } else {
       createConfig();
     }
-  }
+  },
 
   getConfig(): ConfigurationSchema {
     try {
-      ConfigService.CACHED_CONFIG =
-        ConfigService.CACHED_CONFIG ||
+      cachedConfig =
+        cachedConfig ||
         (JSON.parse(readFileSync(CONFIG_PATH, 'utf-8')) as ConfigurationSchema);
     } catch (error) {
-      ConfigService.CACHED_CONFIG = DEFAULT_CONFIG;
+      cachedConfig = DEFAULT_CONFIG;
 
-      this.log.logText(
+      LogService.logText(
         'Invalid config file. You can create a new one with init command.\n',
         {
           error: true,
@@ -68,6 +67,6 @@ export class ConfigService {
       );
     }
 
-    return ConfigService.CACHED_CONFIG;
-  }
-}
+    return cachedConfig;
+  },
+};

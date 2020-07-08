@@ -1,5 +1,5 @@
 import { defineCommand } from '../define-command';
-import { AppService } from '../services/AppService';
+import { ConfigService } from '../services/ConfigService';
 
 export const init = defineCommand({
   command: 'init',
@@ -11,7 +11,7 @@ export const init = defineCommand({
       description: 'force to overwrite existing config file',
     },
   ],
-  handler: async (app: AppService, { force }: { force: boolean }) => {
-    app.config.init({ force });
+  handler: async ({ force }: { force: boolean }) => {
+    ConfigService.init({ force, quiet: false });
   },
 });

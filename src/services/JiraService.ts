@@ -10,51 +10,46 @@ interface Issue {
   status: string;
 }
 
-export class JiraService {
-  private jira: JiraAPI;
-  private config: ConfigService;
+let jira: JiraAPI;
 
-  constructor({ config }: { config: ConfigService }) {
-    this.config = config;
+export const JiraService = {
+  init(): void {
+    const { jira: jiraConfig } = ConfigService.getConfig();
 
-    const { jira } = config.getConfig();
-
-    this.jira = new JiraAPI({
+    jira = new JiraAPI({
       protocol: 'https',
-      host: jira.host,
-      username: jira.username,
-      password: jira.password,
+      host: jiraConfig.host,
+      username: jiraConfig.username,
+      password: jiraConfig.password,
       strictSSL: true,
       apiVersion: '2',
     });
-  }
+  },
 
   async getBoardIssues(boardId: string): Promise<Issue[]> {
-    const { issues } = await this.jira.getIssuesForBoard(boardId);
+    const { issues } = await jira.getIssuesForBoard(boardId);
 
     return issues.map((issue) => ({
       key: issue.key,
       title: issue.fields.summary,
-      url: `https://${this.config.getConfig().jira.host}/browse/${issue.key}`,
+      url: `https://${ConfigService.getConfig().jira.host}/browse/${issue.key}`,
       description: issue.fields.customfield_10421 || '',
       assignee: issue.fields.assignee.displayName,
       status: issue.fields.status.name,
     }));
-  }
+  },
 
   async assignIssueToUser(
     issueId: string,
     username: string,
     pullRequestUrl: string,
   ): Promise<void> {
-    const transition = (
-      await this.jira.listTransitions(issueId)
-    ).transitions.find(
+    const transition = (await jira.listTransitions(issueId)).transitions.find(
       (transition) => transition.name === 'Code Review Request',
     );
 
     if (transition) {
-      await this.jira.transitionIssue(issueId, {
+      await jira.transitionIssue(issueId, {
         transition,
 
         fields: {
@@ -63,11 +58,11 @@ export class JiraService {
         },
       });
     } else {
-      await this.jira.updateIssue(issueId, {
+      await jira.updateIssue(issueId, {
         fields: {
           customfield_10421: pullRequestUrl,
         },
       });
     }
-  }
-}
+  },
+};
