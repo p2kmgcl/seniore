@@ -32,7 +32,7 @@ export class GitHubService {
   private octokit: Octokit;
 
   constructor({ config }: { config: ConfigService }) {
-    this.octokit = new Octokit({ auth: config.getConfig().githubToken });
+    this.octokit = new Octokit({ auth: config.getConfig().github.token });
   }
 
   async addCommentToPullRequest(

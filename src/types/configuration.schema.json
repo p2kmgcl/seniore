@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/p2kmgcl/seniore/blob/master/types/configuration.schema.json",
+  "type": "object",
+  "title": "Seniore configuration",
+  "default": {
+    "github": {
+      "token": ""
+    },
+    "jira": {
+      "host": "",
+      "username": "",
+      "password": ""
+    },
+    "githubUserToJiraUser": {}
+  },
+  "examples": [
+    {
+      "github": {
+        "token": "1234abcd"
+      },
+      "jira": {
+        "host": "myjira.server.com",
+        "username": "pablomolina",
+        "password": "1234abcd"
+      },
+      "githubUserToJiraUser": {
+        "p2kmgcl": "pablomolina"
+      }
+    }
+  ],
+  "required": ["github", "jira", "githubUserToJiraUser"],
+  "additionalProperties": false,
+  "properties": {
+    "github": {
+      "$id": "#/properties/github",
+      "type": "object",
+      "title": "GitHub related configuration",
+      "default": {
+        "token": "1234abcd"
+      },
+      "examples": [
+        {
+          "token": "1234abcd"
+        }
+      ],
+      "required": ["token"],
+      "additionalProperties": false,
+      "properties": {
+        "token": {
+          "$id": "#/properties/github/properties/token",
+          "type": "string",
+          "title": "GitHub token",
+          "description": "Needed permissions may vary depending on the commands that are being used.",
+          "default": "",
+          "examples": ["1234abcd"]
+        }
+      }
+    },
+    "jira": {
+      "$id": "#/properties/jira",
+      "type": "object",
+      "title": "JIRA related configuration",
+      "default": {
+        "host": "",
+        "username": "",
+        "password": ""
+      },
+      "examples": [
+        {
+          "host": "myjira.server.com",
+          "username": "pablomolina",
+          "password": "1234abcd"
+        }
+      ],
+      "required": ["host", "username", "password"],
+      "additionalProperties": false,
+      "properties": {
+        "host": {
+          "$id": "#/properties/jira/properties/host",
+          "type": "string",
+          "title": "JIRA host",
+          "default": "",
+          "examples": ["myjira.server.com"]
+        },
+        "username": {
+          "$id": "#/properties/jira/properties/username",
+          "type": "string",
+          "title": "JIRA username",
+          "default": "",
+          "examples": ["pablomolina"]
+        },
+        "password": {
+          "$id": "#/properties/jira/properties/password",
+          "type": "string",
+          "title": "JIRA password",
+          "default": "",
+          "examples": ["1234abcd"]
+        }
+      }
+    },
+    "githubUserToJiraUser": {
+      "$id": "#/properties/githubUserToJiraUser",
+      "type": "object",
+      "title": "GitHub user map to existing JIRA usernames",
+      "description": "Sometimes (for example, when sending pull requests), seniore can update related JIRA tickets, GitHub issues, pull requests, etc. This mappings helps seniore know which JIRA user corresponds to each GitHub user.",
+      "default": {},
+      "examples": [
+        {
+          "p2kmgcl": "pablomolina"
+        }
+      ],
+      "required": [],
+      "additionalProperties": {
+        "type": "string"
+      },
+      "properties": {}
+    }
+  },
+  "description": "Configuration schema for seniore application. See https://github.com/p2kmgcl/seniore"
+}
