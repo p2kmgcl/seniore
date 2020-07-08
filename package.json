@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^17.11.0",
+    "ajv": "^6.12.3",
     "commander": "^5.1.0",
     "date-fns": "^2.13.0",
     "execa": "^4.0.0",

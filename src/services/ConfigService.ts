@@ -3,7 +3,9 @@ import { existsSync, readFileSync, unlinkSync } from 'fs';
 import { writeFileSync } from 'fs';
 import { homedir } from 'os';
 import { LogService } from './LogService';
+import Ajv from 'ajv';
 import ConfigurationSchema from '../types/configuration.schema';
+import ConfigurationSchemaDefinition from '../types/configuration.schema.json';
 
 const CONFIG_PATH = resolve(homedir(), '.seniore.json');
 
@@ -60,7 +62,8 @@ export const ConfigService = {
       cachedConfig = DEFAULT_CONFIG;
 
       LogService.logText(
-        'Invalid config file. You can create a new one with init command.\n',
+        'Configuration file doesnt exist or is not a JSON file. ' +
+          'You can create a new one with init command.',
         {
           error: true,
         },
@@ -68,5 +71,39 @@ export const ConfigService = {
     }
 
     return cachedConfig;
+  },
+
+  validate(): boolean {
+    const config = this.getConfig();
+
+    if (!config || config === DEFAULT_CONFIG) {
+      return false;
+    }
+
+    const cleanedConfig = { ...config };
+    const validateSchema = new Ajv().compile(ConfigurationSchemaDefinition);
+
+    delete cleanedConfig.$schema;
+
+    if (!validateSchema(cleanedConfig)) {
+      LogService.logText(
+        'Invalid configuration file. ' +
+          'Try to regenerate it with the `init` command ' +
+          'or fix the following errors:',
+        { error: true },
+      );
+
+      validateSchema.errors?.forEach((error) => {
+        LogService.logText(`- ${error.message}`);
+      });
+
+      if (!validateSchema.errors || !validateSchema.errors.length) {
+        LogService.logText('No errors found', { dim: true });
+      }
+
+      return false;
+    }
+
+    return true;
   },
 };
