@@ -113,7 +113,9 @@ export const sendPullRequest = defineCommand({
         LogService.logText(`No JIRA user found for ${targetOwner}`);
       }
 
-      LogService.logText(`https://${config.jira.host}/browse/${issueId}`);
+      if (config.jira.host) {
+        LogService.logText(`https://${config.jira.host}/browse/${issueId}`);
+      }
     }
   },
 });
