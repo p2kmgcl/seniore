@@ -44,7 +44,6 @@
     "commander": "^5.1.0",
     "date-fns": "^2.13.0",
     "execa": "^4.0.0",
-    "husky": "^4.2.5",
     "ink": "^2.7.1",
     "jira-client": "^6.17.0",
     "react": "^16.13.1"
@@ -58,6 +57,7 @@
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.20.0",
+    "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
     "typescript": "^3.8.3"
