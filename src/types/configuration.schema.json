@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://github.com/p2kmgcl/seniore/blob/master/types/configuration.schema.json",
+  "$id": "https://raw.githubusercontent.com/p2kmgcl/seniore/master/src/types/configuration.schema.json",
   "type": "object",
   "title": "Seniore configuration",
   "default": {

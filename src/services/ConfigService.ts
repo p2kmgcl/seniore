@@ -11,7 +11,7 @@ const CONFIG_PATH = resolve(homedir(), '.seniore.json');
 
 const DEFAULT_CONFIG: ConfigurationSchema = {
   $schema:
-    'https://github.com/p2kmgcl/seniore/blob/master/types/configuration.schema.json',
+    'https://raw.githubusercontent.com/p2kmgcl/seniore/master/src/types/configuration.schema.json',
   github: {
     token: '',
   },
