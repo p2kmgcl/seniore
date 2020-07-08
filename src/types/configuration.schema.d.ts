@@ -1,5 +1,5 @@
 export default interface ConfigurationSchema {
-  $schema: 'https://github.com/p2kmgcl/seniore/blob/master/types/configuration.schema.json';
+  $schema: 'https://raw.githubusercontent.com/p2kmgcl/seniore/master/src/types/configuration.schema.json';
   github: {
     token: string;
   };
