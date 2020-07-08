@@ -57,9 +57,14 @@ program.action(() => {
   LogService.logText(program.helpInformation());
 });
 
-ConfigService.init({ force: false, quiet: true });
-GitHubService.init();
-JiraService.init();
+if (!['init', 'i'].includes(process.argv[2])) {
+  if (ConfigService.validate()) {
+    GitHubService.init();
+    JiraService.init();
+  } else {
+    process.exit(1);
+  }
+}
 
 program.version(version);
 program.parse(process.argv);
