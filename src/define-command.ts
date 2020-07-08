@@ -1,12 +1,11 @@
 import commander from 'commander';
-import { AppService } from './services/AppService';
 import { LogService } from './services/LogService';
 
 interface CommandDefinition {
   command: string;
   alias?: string;
   description: string;
-  handler: (app: AppService, ...args: any[]) => any;
+  handler: (...args: any[]) => any;
   options?: Array<{
     definition: string;
     description: string;
@@ -15,7 +14,6 @@ interface CommandDefinition {
 }
 
 function wrapError<T extends Array<any>, R = void>(
-  log: LogService,
   fn: (...args: T) => R | Promise<R>,
 ) {
   return async (...args: T): Promise<R> => {
@@ -27,7 +25,7 @@ function wrapError<T extends Array<any>, R = void>(
       if (debug) {
         throw error;
       } else {
-        log.logText(error.toString(), { error: true });
+        LogService.logText(error.toString(), { error: true });
         process.exit(1);
       }
     }
@@ -37,8 +35,6 @@ function wrapError<T extends Array<any>, R = void>(
 export function defineCommand(
   definition: CommandDefinition,
 ): (program: commander.Command) => void {
-  const app = new AppService();
-
   return (program: commander.Command): void => {
     let builtProgram = program
       .command(definition.command)
@@ -57,7 +53,7 @@ export function defineCommand(
     }
 
     builtProgram.action((...args: any[]): any => {
-      return wrapError(app.log, definition.handler)(app, ...args);
+      return wrapError(definition.handler)(...args);
     });
   };
 }

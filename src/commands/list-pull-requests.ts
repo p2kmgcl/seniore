@@ -1,5 +1,7 @@
 import { defineCommand } from '../define-command';
-import { AppService } from '../services/AppService';
+import { LogService } from '../services/LogService';
+import { GitHubService } from '../services/GitHubService';
+import { GitService } from '../services/GitService';
 
 export const listPullRequests = defineCommand({
   command: 'list-pull-requests',
@@ -11,12 +13,12 @@ export const listPullRequests = defineCommand({
       description: 'repo owner (default: username from "origin")',
     },
   ],
-  handler: async (app: AppService, options: { owner: string }) => {
-    const owner = options.owner || (await app.git.getRepositoryOwner());
-    const repo = await app.git.getRepositoryName();
-    const pullRequests = await app.gitHub.getPullRequests(owner, repo);
+  handler: async (options: { owner: string }) => {
+    const owner = options.owner || (await GitService.getRepositoryOwner());
+    const repo = await GitService.getRepositoryName();
+    const pullRequests = await GitHubService.getPullRequests(owner, repo);
 
-    app.log.logLines(
+    LogService.logLines(
       pullRequests.map((pullRequest) => ({
         id: pullRequest.id,
         title: pullRequest.title,

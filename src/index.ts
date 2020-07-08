@@ -8,6 +8,9 @@ import { listIssues } from './commands/list-issues';
 import { listPullRequests } from './commands/list-pull-requests';
 import { listNotifications } from './commands/list-notifications';
 import { LogService } from './services/LogService';
+import { GitHubService } from './services/GitHubService';
+import { ConfigService } from './services/ConfigService';
+import { JiraService } from './services/JiraService';
 
 const program = new Command();
 
@@ -51,8 +54,12 @@ program.option(
 );
 
 program.action(() => {
-  new LogService().logText(program.helpInformation());
+  LogService.logText(program.helpInformation());
 });
+
+ConfigService.init({ force: false, quiet: true });
+GitHubService.init();
+JiraService.init();
 
 program.version(version);
 program.parse(process.argv);

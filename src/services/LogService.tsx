@@ -14,7 +14,7 @@ const defaultOptions = {
   error: false,
 };
 
-export class LogService {
+export const LogService = {
   logText(message: string, options: Options = defaultOptions): void {
     const { unmount } = render(
       <Text bold={options.bold || options.error} key={message}>
@@ -25,7 +25,7 @@ export class LogService {
     );
 
     unmount();
-  }
+  },
 
   logLines(lines: Line[], noLinesMessage = ''): void {
     if (lines.length) {
@@ -34,5 +34,5 @@ export class LogService {
     } else if (noLinesMessage) {
       this.logText(noLinesMessage, { dim: true });
     }
-  }
-}
+  },
+};
