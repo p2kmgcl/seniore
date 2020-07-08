@@ -89,16 +89,32 @@ export const GitHubService = {
     number: number,
     comment: string,
   ): Promise<void> {
-    await octokit.issues.createComment({
-      owner,
-      repo,
-      issue_number: number,
-      body: comment,
-    });
+    try {
+      await octokit.issues.createComment({
+        owner,
+        repo,
+        issue_number: number,
+        body: comment,
+      });
+    } catch (error) {
+      throw new Error(
+        `Couldn't add comment to PR https://github.com/${owner}/${repo}/pull/${number}. Please check if you have permissions for this repository.`,
+      );
+    }
   },
 
   async clearNotifications(): Promise<void> {
-    await octokit.activity.markNotificationsAsRead();
+    try {
+      await octokit.activity.markNotificationsAsRead();
+    } catch (error) {
+      if (error.status === 401) {
+        throw new Error(
+          'GitHub authentication needed. Please check your GitHub configuration.',
+        );
+      }
+
+      throw error;
+    }
   },
 
   async closePullRequest(
@@ -115,7 +131,7 @@ export const GitHubService = {
       });
     } catch (error) {
       throw new Error(
-        `Couldn't close PR https://github.com/${owner}/${repo}/pull/${number}`,
+        `Couldn't close PR https://github.com/${owner}/${repo}/pull/${number}. Please check if you have write permissions for this repository.`,
       );
     }
   },
@@ -135,32 +151,56 @@ export const GitHubService = {
     repo: string;
     title: string;
   }): Promise<PullRequest> {
-    return mapPullRequest(
-      targetOwner,
-      repo,
-      await octokit.pulls
-        .create({
-          owner: targetOwner,
-          repo,
-          title,
-          head: `${sourceOwner}:${sourceBranch}`,
-          base: targetBranch,
-        })
-        .then(({ data }) => data),
-    );
+    try {
+      return mapPullRequest(
+        targetOwner,
+        repo,
+        await octokit.pulls
+          .create({
+            owner: targetOwner,
+            repo,
+            title,
+            head: `${sourceOwner}:${sourceBranch}`,
+            base: targetBranch,
+          })
+          .then(({ data }) => data),
+      );
+    } catch (error) {
+      if (error.status === 404) {
+        throw new Error(
+          `${targetOwner}/${repo} repository not found. Please check if you have permissions to create pull requests here.`,
+        );
+      }
+
+      if (error?.errors?.[0]?.message) {
+        throw new Error(error.errors[0].message);
+      }
+
+      throw error;
+    }
   },
 
   async getNotifications(): Promise<Notification[]> {
-    const {
-      data,
-    } = await octokit.activity.listNotificationsForAuthenticatedUser();
+    try {
+      const {
+        data,
+      } = await octokit.activity.listNotificationsForAuthenticatedUser();
 
-    return data.map((notification) => ({
-      id: formatDistanceToNowStrict(new Date(notification.updated_at)),
-      title: notification.subject.title,
-      repository: notification.repository.full_name,
-      reason: notification.reason,
-    }));
+      return data.map((notification) => ({
+        id: formatDistanceToNowStrict(new Date(notification.updated_at)),
+        title: notification.subject.title,
+        repository: notification.repository.full_name,
+        reason: notification.reason,
+      }));
+    } catch (error) {
+      if (error.status === 401) {
+        throw new Error(
+          'GitHub authentication needed. Please check your GitHub configuration.',
+        );
+      }
+
+      throw error;
+    }
   },
 
   async getPullRequest(
@@ -168,13 +208,23 @@ export const GitHubService = {
     repo: string,
     number: number,
   ): Promise<PullRequest> {
-    const { data: pullRequest } = await octokit.pulls.get({
-      owner,
-      repo,
-      pull_number: number,
-    });
+    try {
+      const { data: pullRequest } = await octokit.pulls.get({
+        owner,
+        repo,
+        pull_number: number,
+      });
 
-    return mapPullRequest(owner, repo, pullRequest);
+      return mapPullRequest(owner, repo, pullRequest);
+    } catch (error) {
+      if (error.status === 404) {
+        throw new Error(
+          `${owner}/${repo} repository not found. Please check if you have access permissions.`,
+        );
+      }
+
+      throw error;
+    }
   },
 
   async getPullRequests(owner: string, repo: string): Promise<PullRequest[]> {
@@ -192,8 +242,10 @@ export const GitHubService = {
 
       return pullRequests;
     } catch (error) {
-      if (error && error.status === 404) {
-        throw new Error(`${owner}/${repo} repository not found`);
+      if (error.status === 404) {
+        throw new Error(
+          `${owner}/${repo} repository not found. Please check if you have access permissions.`,
+        );
       }
 
       throw error;
