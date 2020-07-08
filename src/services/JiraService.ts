@@ -17,13 +17,13 @@ export class JiraService {
   constructor({ config }: { config: ConfigService }) {
     this.config = config;
 
-    const { jiraHost, jiraPassword, jiraUser } = config.getConfig();
+    const { jira } = config.getConfig();
 
     this.jira = new JiraAPI({
       protocol: 'https',
-      host: jiraHost,
-      username: jiraUser,
-      password: jiraPassword,
+      host: jira.host,
+      username: jira.username,
+      password: jira.password,
       strictSSL: true,
       apiVersion: '2',
     });
@@ -35,7 +35,7 @@ export class JiraService {
     return issues.map((issue) => ({
       key: issue.key,
       title: issue.fields.summary,
-      url: `https://${this.config.getConfig().jiraHost}/browse/${issue.key}`,
+      url: `https://${this.config.getConfig().jira.host}/browse/${issue.key}`,
       description: issue.fields.customfield_10421 || '',
       assignee: issue.fields.assignee.displayName,
       status: issue.fields.status.name,

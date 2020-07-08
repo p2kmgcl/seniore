@@ -3,35 +3,26 @@ import { existsSync, readFileSync, unlinkSync } from 'fs';
 import { writeFileSync } from 'fs';
 import { homedir } from 'os';
 import { LogService } from './LogService';
-
-interface Config {
-  $spec: string;
-  githubToken: string;
-  jiraHost: string;
-  jiraUser: string;
-  jiraPassword: string;
-  githubUserToJiraUser: {
-    [key: string]: string;
-  };
-}
+import ConfigurationSchema from '../types/configuration.schema';
 
 const CONFIG_PATH = resolve(homedir(), '.seniore.json');
 
-const { repository } = JSON.parse(
-  readFileSync(resolve(__dirname, '../../package.json'), 'utf-8'),
-);
-
-const DEFAULT_CONFIG: Config = {
-  $spec: `${repository.url}/blob/master/types/config.d.ts`,
-  githubToken: '',
-  jiraHost: '',
-  jiraUser: '',
-  jiraPassword: '',
+const DEFAULT_CONFIG: ConfigurationSchema = {
+  $schema:
+    'https://github.com/p2kmgcl/seniore/blob/master/types/configuration.schema.json',
+  github: {
+    token: '',
+  },
+  jira: {
+    host: '',
+    username: '',
+    password: '',
+  },
   githubUserToJiraUser: {},
 };
 
 export class ConfigService {
-  private static CACHED_CONFIG: null | Config = null;
+  private static CACHED_CONFIG: null | ConfigurationSchema = null;
   private log: LogService;
 
   constructor({ log }: { log: LogService }) {
@@ -61,11 +52,11 @@ export class ConfigService {
     }
   }
 
-  getConfig(): Config {
+  getConfig(): ConfigurationSchema {
     try {
       ConfigService.CACHED_CONFIG =
         ConfigService.CACHED_CONFIG ||
-        (JSON.parse(readFileSync(CONFIG_PATH, 'utf-8')) as Config);
+        (JSON.parse(readFileSync(CONFIG_PATH, 'utf-8')) as ConfigurationSchema);
     } catch (error) {
       ConfigService.CACHED_CONFIG = DEFAULT_CONFIG;
 
