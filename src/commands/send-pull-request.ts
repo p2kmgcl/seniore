@@ -10,7 +10,7 @@ export const sendPullRequest = defineCommand({
   description: 'send current branch as PR',
   options: [
     {
-      definition: '--forward',
+      definition: '-f, --forward',
       description: 'add ci:forward comment to the created pull-request',
       defaultValue: false,
     },
