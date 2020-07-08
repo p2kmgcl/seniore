@@ -14,11 +14,16 @@ export const sendPullRequest = defineCommand({
       description: 'add ci:forward comment to the created pull-request',
       defaultValue: false,
     },
+    {
+      definition: '-k, --keep-branch',
+      description: 'keep local branch instead of cleaning up',
+      defaultValue: false,
+    },
   ],
   handler: async (
     app: AppService,
     targetOwner: string,
-    { forward }: { forward: boolean },
+    { forward, keepBranch }: { forward: boolean; keepBranch: boolean },
   ) => {
     const config = app.config.getConfig();
 
@@ -84,8 +89,10 @@ export const sendPullRequest = defineCommand({
       }
     }
 
-    await app.git.checkoutBranch('master');
-    await app.git.deleteBranch(branch);
+    if (!keepBranch) {
+      await app.git.checkoutBranch('master');
+      await app.git.deleteBranch(branch);
+    }
 
     app.log.logText(targetPR.url);
 
