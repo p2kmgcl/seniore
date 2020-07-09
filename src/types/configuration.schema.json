@@ -51,7 +51,7 @@
           "$id": "#/properties/github/properties/token",
           "type": "string",
           "title": "GitHub token",
-          "description": "Needed permissions may vary depending on the commands that are being used.",
+          "description": "Needed permissions may vary depending on the commands that are being used (for example, there is no need to have a token in order to checkout a pull request, but necessary if you are creating a new one). API rate limit may vary depending on the token too (see GitHub API documentation: https://docs.github.com/en/rest/reference/rate-limit).",
           "default": "",
           "examples": ["1234abcd"]
         }
@@ -103,7 +103,7 @@
       "$id": "#/properties/githubUserToJiraUser",
       "type": "object",
       "title": "GitHub user map to existing JIRA usernames",
-      "description": "Sometimes (for example, when sending pull requests), seniore can update related JIRA tickets, GitHub issues, pull requests, etc. This mappings helps seniore know which JIRA user corresponds to each GitHub user.",
+      "description": "Sometimes (for example, when sending pull requests), seniore can update related JIRA tickets, GitHub issues, pull requests, etc. These mappings help seniore know which JIRA user corresponds to each GitHub user.",
       "default": {},
       "examples": [
         {

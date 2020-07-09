@@ -37,15 +37,17 @@
   </a>
 </h4>
 
-```
 Custom list of github and jira related commands currently customized to
 behave as an ordinary Liferay workflow.
 
-*About `username` parameter*: in Liferay, we make PRs to forked repos
-instead of using the upstream repository. Because of this, if `username`
-is not specified in some command, it defaults to the *origin* remote instead
-of upstream.
+> _About `username` parameter_: in Liferay, we make PRs to forked repos
+> instead of using the upstream repository. Because of this, if `username`
+> is not specified in some command, it defaults to the _origin_ remote instead
+> of upstream.
 
+## CLI Interface
+
+```
 Options:
   --verbose-error                             show full stack trace when a fatal error occurs
   -V, --version                               output the version number
@@ -59,3 +61,29 @@ Commands:
   list-pull-requests|lp [options]             list existing pull requests
   list-notifications|ln [options]             list GitHub notifications
 ```
+
+## Configuration
+
+[JSON Schema](https://raw.githubusercontent.com/p2kmgcl/seniore/master/src/types/configuration.schema.json)
+
+### `github.token`
+
+GitHub token. Needed permissions may vary depending on the commands that are
+being used (for example, there is no need to have a token in order to checkout
+a pull request, but necessary if you are creating a new one). API rate limit
+may vary depending on the token too (see [GitHub API documentation](https://docs.github.com/en/rest/reference/rate-limit)).
+
+### `jira`
+
+JIRA configuration. If `host` is not specified, JIRA functionality is simply
+ignored when using mixed GitHub/JIRA commands (like sending pull requests).
+
+- `jira.host` (only domain without protocol, for example `myjira.server.com`).
+- `jira.username`.
+- `jira.password`.
+
+### `githubUserToJiraUser`
+
+Sometimes (for example, when sending pull requests), seniore can update related
+JIRA tickets, GitHub issues, pull requests, etc. These mappings help seniore
+know which JIRA user corresponds to each GitHub user.
