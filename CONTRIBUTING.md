@@ -13,8 +13,8 @@ In order to test your changes without having them published, you can use
 2. `cd youtProjectDirectory`.
 3. `npm link` (this only has to be runned once, run `npm unlink` to undo).
 4. `npm run build [--watch]` compiles the project
-5. Now you can use `seniore` commands normally, it will use your local toolkit
-   project.
+5. Now you can use `seniore` commands normally, it will use your local
+   repository.
 
 ## Pull Request Process
 
