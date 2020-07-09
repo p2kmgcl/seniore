@@ -44,7 +44,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Conventional Changelog Action
-        uses: TriPSs/conventional-changelog-action@v2
+        uses: TriPSs/conventional-changelog-action@v3
         id: changelog
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
