@@ -1,6 +1,5 @@
 import { resolve } from 'path';
-import { existsSync, readFileSync, unlinkSync } from 'fs';
-import { writeFileSync } from 'fs';
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { homedir } from 'os';
 import { LogService } from './LogService';
 import Ajv from 'ajv';
