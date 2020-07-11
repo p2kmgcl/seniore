@@ -2,24 +2,12 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
   "extends": [
-    "plugin:react/recommended",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "react/prop-types": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-explicit-any": "off"
   }

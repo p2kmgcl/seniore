@@ -61,12 +61,9 @@ export const ConfigService = {
     } catch (error) {
       cachedConfig = DEFAULT_CONFIG;
 
-      LogService.logText(
+      LogService.logError(
         'Configuration file doesnt exist or is not a JSON file. ' +
           'You can create a new one with init command.',
-        {
-          error: true,
-        },
       );
     }
 
@@ -86,11 +83,10 @@ export const ConfigService = {
     delete cleanedConfig.$schema;
 
     if (!validateSchema(cleanedConfig)) {
-      LogService.logText(
+      LogService.logError(
         'Invalid configuration file. ' +
           'Try to regenerate it with the `init` command ' +
           'or fix the following errors:',
-        { error: true },
       );
 
       validateSchema.errors?.forEach((error) => {
@@ -98,7 +94,7 @@ export const ConfigService = {
       });
 
       if (!validateSchema.errors || !validateSchema.errors.length) {
-        LogService.logText('No errors found', { dim: true });
+        LogService.logNotFound('No errors found');
       }
 
       return false;
