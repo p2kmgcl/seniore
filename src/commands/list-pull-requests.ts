@@ -23,7 +23,7 @@ export const listPullRequests = defineCommand({
         id: pullRequest.id,
         title: pullRequest.title,
         url: pullRequest.url,
-        topics: [pullRequest.creator, pullRequest.status],
+        topics: [`@${pullRequest.creator}`, pullRequest.status],
       })),
       'No PRs',
     );

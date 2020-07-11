@@ -25,7 +25,7 @@ function wrapError<T extends Array<any>, R = void>(
       if (debug) {
         throw error;
       } else {
-        LogService.logText(error.toString(), { error: true });
+        LogService.logError(error.toString());
         process.exit(1);
       }
     }

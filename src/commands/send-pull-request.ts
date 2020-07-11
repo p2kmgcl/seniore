@@ -86,9 +86,7 @@ export const sendPullRequest = defineCommand({
       try {
         await GitHubService.closePullRequest(sourceOwner, repo, sourceNumber);
       } catch (error) {
-        LogService.logText(error.toString(), {
-          error: true,
-        });
+        LogService.logError(error.toString());
       }
     }
 
