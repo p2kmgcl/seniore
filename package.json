@@ -3,7 +3,7 @@
   "version": "5.0.0",
   "description": "Gracefully manage your GitHub and Jira workflow",
   "author": "Pablo Molina <contact@pablomolina.me>",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/p2kmgcl/seniore"
