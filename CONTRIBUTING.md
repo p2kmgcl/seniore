@@ -34,13 +34,21 @@ When you create your contribution, please keep this list in mind:
 
 ## Release Cycle
 
-We use semver for every release, and continuous release is automatically
-done with CI. However, we should be manually checking repository health status
-time by time:
+We use semver for every release~~, and continuous release is automatically
+done with CI~~, bug release process is made manually for now.
 
-- `docs: x` update outdated documentation.
-- `chore: Update/Remove x` update dependencies (`npm audit`, `npm outdated`).
-- `fix: x` run all tests and linters.
+Checklist before release:
+
+- [ ] `docs: x` update outdated documentation.
+- [ ] `chore: Update/Remove x` update dependencies (`npm audit`, `npm outdated`).
+- [ ] `fix: x` run all tests and linters.
+
+Release process:
+
+1. Update `package.json` and `package-lock.json` version number.
+2. `chore(release) vX.X.X` and push.
+3. Create GitHub release (`vX.X.X` release title and tag) and write changelog.
+4. `npm publish`.
 
 [1]: https://www.conventionalcommits.org/en/v1.0.0/#specification
 [2]: https://github.com/p2kmgcl/seniore/blob/master/CONTRIBUTING.md#release-cycle
