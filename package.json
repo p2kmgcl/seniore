@@ -2,6 +2,13 @@
   "name": "seniore",
   "version": "5.0.0",
   "description": "Gracefully manage your GitHub and Jira workflow",
+  "keywords": [
+    "github",
+    "jira",
+    "workflow",
+    "cli",
+    "liferay"
+  ],
   "author": "Pablo Molina <contact@pablomolina.me>",
   "license": "MIT",
   "repository": {
