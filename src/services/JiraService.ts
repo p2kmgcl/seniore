@@ -55,7 +55,8 @@ export const JiraService = {
     } catch (error) {
       if (error.statusCode === 403) {
         throw new Error(
-          'Jira authentication error. Please check if you have permissions to access this board.',
+          'Jira authentication error.\n' +
+            'Please check if you have permissions to access this board.',
         );
       }
 
@@ -98,7 +99,8 @@ export const JiraService = {
     } catch (error) {
       if (error.statusCode === 403) {
         throw new Error(
-          'Jira authentication error. Please check if you have permissions to update this issue.',
+          'Jira authentication error.\n' +
+            'Please check if you have permissions to update this issue.',
         );
       }
 

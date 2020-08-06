@@ -98,7 +98,8 @@ export const GitHubService = {
       });
     } catch (error) {
       throw new Error(
-        `Couldn't add comment to PR https://github.com/${owner}/${repo}/pull/${number}. Please check if you have permissions for this repository.`,
+        `Couldn't add comment to PR https://github.com/${owner}/${repo}/pull/${number}.\n` +
+          'Please check if you have permissions for this repository.',
       );
     }
   },
@@ -109,7 +110,8 @@ export const GitHubService = {
     } catch (error) {
       if (error.status === 401) {
         throw new Error(
-          'GitHub authentication needed. Please check your GitHub configuration.',
+          'GitHub authentication needed.\n' +
+            'Please check your GitHub configuration.',
         );
       }
 
@@ -131,7 +133,8 @@ export const GitHubService = {
       });
     } catch (error) {
       throw new Error(
-        `Couldn't close PR https://github.com/${owner}/${repo}/pull/${number}. Please check if you have write permissions for this repository.`,
+        `Couldn't close PR https://github.com/${owner}/${repo}/pull/${number}.\n` +
+          'Please check if you have write permissions for this repository.',
       );
     }
   },
@@ -168,7 +171,8 @@ export const GitHubService = {
     } catch (error) {
       if (error.status === 404) {
         throw new Error(
-          `${targetOwner}/${repo} repository not found. Please check if you have permissions to create pull requests here.`,
+          `${targetOwner}/${repo} repository not found.\n` +
+            'Please check if you have permissions to create pull requests here.',
         );
       }
 
@@ -195,7 +199,8 @@ export const GitHubService = {
     } catch (error) {
       if (error.status === 401) {
         throw new Error(
-          'GitHub authentication needed. Please check your GitHub configuration.',
+          'GitHub authentication needed.\n' +
+            'Please check your GitHub configuration.',
         );
       }
 
@@ -219,7 +224,8 @@ export const GitHubService = {
     } catch (error) {
       if (error.status === 404) {
         throw new Error(
-          `${owner}/${repo} repository not found. Please check if you have access permissions.`,
+          `${owner}/${repo} repository not found.\n` +
+            'Please check if you have access permissions.',
         );
       }
 
@@ -244,7 +250,8 @@ export const GitHubService = {
     } catch (error) {
       if (error.status === 404) {
         throw new Error(
-          `${owner}/${repo} repository not found. Please check if you have access permissions.`,
+          `${owner}/${repo} repository not found.\n` +
+            'Please check if you have access permissions.',
         );
       }
 
