@@ -10,5 +10,6 @@
     "resolveJsonModule": true,
     "strict": true,
     "target": "ES5"
-  }
+  },
+  "exclude": ["node_modules", "test"]
 }
