@@ -20,7 +20,9 @@ function wrapError<T extends Array<any>, R = void>(
     try {
       return await fn(...args);
     } catch (error) {
-      const debug = process.argv.some((arg) => arg === '--verbose-error');
+      const debug =
+        process.env.NODE_ENV === 'test' ||
+        process.argv.some((arg) => arg === '--verbose-error');
 
       if (debug) {
         throw error;
