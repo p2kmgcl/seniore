@@ -11,7 +11,7 @@ export const init = defineCommand({
       description: 'force to overwrite existing config file',
     },
   ],
-  handler: async ({ force }: { force: boolean }) => {
+  handler: async ({ force = false }: { force: boolean }) => {
     ConfigService.init({ force, quiet: false });
   },
 });
