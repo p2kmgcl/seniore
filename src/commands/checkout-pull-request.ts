@@ -16,7 +16,7 @@ export const checkoutPullRequest = defineCommand({
     const number = parseInt(numberString, 10);
 
     if (isNaN(number)) {
-      throw new Error('Invalid PR number');
+      throw new Error(`Invalid PR number "${numberString}"`);
     }
 
     const repo = await GitService.getRepositoryName();
