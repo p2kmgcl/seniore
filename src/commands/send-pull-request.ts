@@ -46,6 +46,10 @@ export const sendPullRequest = defineCommand({
       title,
     });
 
+    if (!targetPR) {
+      throw new Error('Unknown error. The PR could not be created');
+    }
+
     if (forward) {
       await GitHubService.addCommentToPullRequest(
         targetOwner,
