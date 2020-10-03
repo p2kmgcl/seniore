@@ -23,7 +23,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 10
       - run: npm ci
       - run: npm run check-format
       - run: npm run lint
@@ -35,6 +35,6 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 10
       - run: npm ci
       - run: npm run build
