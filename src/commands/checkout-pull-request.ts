@@ -19,9 +19,8 @@ export const checkoutPullRequest = defineCommand({
       throw new Error('Invalid PR number');
     }
 
-    const localOwner = await GitService.getRepositoryOwner();
     const repo = await GitService.getRepositoryName();
-    const owner = options.owner || localOwner;
+    const owner = options.owner || (await GitService.getRepositoryOwner());
 
     const pr = await GitHubService.getPullRequest(owner, repo, number);
 
