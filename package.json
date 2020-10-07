@@ -30,7 +30,7 @@
     "check-format": "prettier --list-different .",
     "format": "prettier --write .",
     "lint": "eslint --max-warnings 0 --fix src/**/*.{ts,tsx}",
-    "test":  "jest"
+    "test": "jest"
   },
   "husky": {
     "hooks": {
