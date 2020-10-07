@@ -71,7 +71,7 @@ export const sendPullRequest = defineCommand({
         sourceNumber,
       );
 
-      if (targetOwner !== sourcePR.creator && localOwner !== sourcePR.creator) {
+      if (![targetOwner, localOwner].includes(sourcePR.creator)) {
         await GitHubService.addCommentToPullRequest(
           targetOwner,
           repo,
