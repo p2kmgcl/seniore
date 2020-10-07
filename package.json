@@ -29,7 +29,7 @@
     "build": "tsc --project tsconfig.json",
     "check-format": "prettier --list-different .",
     "format": "prettier --write .",
-    "lint": "eslint --max-warnings 0 --fix src/**/*.{ts,tsx}",
+    "lint": "eslint --max-warnings 0 --fix src/**/*.ts",
     "test": "jest"
   },
   "husky": {
