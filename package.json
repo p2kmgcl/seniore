@@ -31,7 +31,7 @@
     "format": "prettier --write .",
     "show-changelog": "conventional-changelog -p angular -r 2",
     "lint": "eslint --max-warnings 0 --fix src/**/*.ts",
-    "prepublish": "npm run lint && npm run test && npm run build",
+    "prepack": "npm run lint && npm run test && npm run build",
     "test": "jest"
   },
   "husky": {
