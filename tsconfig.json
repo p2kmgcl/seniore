@@ -2,13 +2,16 @@
   "compilerOptions": {
     "allowJs": false,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "module": "commonjs",
     "noImplicitAny": true,
     "noImplicitThis": true,
     "outDir": "build",
-    "lib": ["esnext.asynciterable"],
-    "resolveJsonModule": true,
     "strict": true,
-    "target": "ES5"
-  }
+    "lib": ["ES2018"],
+    "target": "ES2018"
+  },
+
+  "include": ["src"],
+  "exclude": ["**/__test__/**"]
 }
