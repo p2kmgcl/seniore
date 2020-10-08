@@ -34,21 +34,30 @@ When you create your contribution, please keep this list in mind:
 
 ## Release Cycle
 
-We use semver for every release~~, and continuous release is automatically
-done with CI~~, bug release process is made manually for now.
+We use semver for every release, and these are made manually following these
+steps:
 
-Checklist before release:
+1. Checklist before release:
+   - [ ] `docs: x` update outdated documentation.
+   - [ ] `build: Update/Remove x` update dependencies (`npm audit`, `npm outdated`).
+   - [ ] `fix/test: x` run all tests and linters.
+2. Update `package.json` and `package-lock.json` version number and
+   commit `build(release) Prepare vX.X.X`.
+3. Create GitHub release (`vX.X.X` release title and tag) and
+   write changelog (use `npm run show-changelog` as base).
+4. Fetch and checkout GitHub generated tag `vX.X.X`.
+5. `npm publish`.
 
-- [ ] `docs: x` update outdated documentation.
-- [ ] `chore: Update/Remove x` update dependencies (`npm audit`, `npm outdated`).
-- [ ] `fix: x` run all tests and linters.
+### Publishing a pre-release
 
-Release process:
+In case of publishing a pre-release in order to test some new functionallity,
+the steps are the same than publishing a regular release, except:
 
-1. Update `package.json` and `package-lock.json` version number.
-2. `chore(release) vX.X.X` and push.
-3. Create GitHub release (`vX.X.X` release title and tag) and write changelog.
-4. `npm publish`.
+- The package version and tag name will be `vX.X.X-rcY`, being `X.X.X` the future
+  stable version (ex. `2.12.1`) and `Y` an incremental number starting from 1
+  (`v2.12.1-rc1`, `v2.12.1-rc2` ...).
+- `npm publish --tag next` should be run instead of `npm publish`, to avoid
+  overriding existing stable release.
 
 [1]: https://www.conventionalcommits.org/en/v1.0.0/#specification
 [2]: https://github.com/p2kmgcl/seniore/blob/master/CONTRIBUTING.md#release-cycle
