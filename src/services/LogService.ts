@@ -31,15 +31,17 @@ export const LogService = {
   },
 
   async logProgress<T>(message: string, anything: T): Promise<T> {
-    const spinner = ora({
-      text: message,
-      spinner: 'dots',
-    }).start();
+    if (process.env.NODE_ENV !== 'test') {
+      const spinner = ora({
+        text: message,
+        spinner: 'dots',
+      }).start();
 
-    try {
-      await anything;
-    } finally {
-      spinner.stop();
+      try {
+        await anything;
+      } finally {
+        spinner.stop();
+      }
     }
 
     return anything;

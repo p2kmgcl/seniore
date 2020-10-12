@@ -24,6 +24,10 @@ describe('commands/send-pull-request', () => {
   const originalTitle = 'LPS-1234 Change some stuff';
 
   beforeEach(() => {
+    MockedLogService.logProgress.mockImplementation(
+      (message, anything: unknown) => Promise.resolve(anything),
+    );
+
     MockedConfigService.getConfig.mockReturnValue({
       github: { token: '' },
       jira: { host: '', password: '', username: '' },

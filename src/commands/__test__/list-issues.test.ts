@@ -10,6 +10,12 @@ const MockedJiraService = JiraService as jest.Mocked<typeof JiraService>;
 const MockedLogService = LogService as jest.Mocked<typeof LogService>;
 
 describe('commands/list-issues', () => {
+  beforeEach(() => {
+    MockedLogService.logProgress.mockImplementation(
+      (message, anything: unknown) => Promise.resolve(anything),
+    );
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });

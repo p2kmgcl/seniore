@@ -10,6 +10,12 @@ const MockedGitHubService = GitHubService as jest.Mocked<typeof GitHubService>;
 const MockedLogService = LogService as jest.Mocked<typeof LogService>;
 
 describe('commands/list-notifications', () => {
+  beforeEach(() => {
+    MockedLogService.logProgress.mockImplementation(
+      (message, anything: unknown) => Promise.resolve(anything),
+    );
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
