@@ -4,7 +4,7 @@ import { ConfigService } from './ConfigService';
 
 type RefStatus = 'Pending' | 'Failure' | 'Success' | 'Unknown';
 
-interface GitHubPullRequest {
+export interface GitHubPullRequest {
   number: number;
   title: string;
   html_url: string;
@@ -12,7 +12,7 @@ interface GitHubPullRequest {
   user: { login: string };
 }
 
-interface PullRequest {
+export interface PullRequest {
   id: string;
   number: number;
   title: string;
@@ -21,7 +21,7 @@ interface PullRequest {
   status: RefStatus;
 }
 
-interface Notification {
+export interface Notification {
   id: string;
   title: string;
   repository: string;

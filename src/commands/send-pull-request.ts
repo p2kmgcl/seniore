@@ -1,7 +1,7 @@
 import { defineCommand } from '../define-command';
 import { LogService } from '../services/LogService';
 import { ConfigService } from '../services/ConfigService';
-import { GitHubService } from '../services/GitHubService';
+import { VerboseGitHubService } from '../services/VerboseGitHubService';
 import { GitService } from '../services/GitService';
 import { JiraService } from '../services/JiraService';
 
@@ -37,7 +37,7 @@ export const sendPullRequest = defineCommand({
 
     await GitService.pushBranch(branch);
 
-    const targetPR = await GitHubService.createPullRequest({
+    const targetPR = await VerboseGitHubService.createPullRequest({
       sourceOwner: localOwner,
       sourceBranch: branch,
       targetOwner,
@@ -51,7 +51,7 @@ export const sendPullRequest = defineCommand({
     }
 
     if (forward) {
-      await GitHubService.addCommentToPullRequest(
+      await VerboseGitHubService.addCommentToPullRequest(
         targetOwner,
         repo,
         targetPR.number,
@@ -65,14 +65,14 @@ export const sendPullRequest = defineCommand({
       const sourceOwner = data[1];
       const sourceNumber = parseInt(data[2], 10);
 
-      const sourcePR = await GitHubService.getPullRequest(
+      const sourcePR = await VerboseGitHubService.getPullRequest(
         sourceOwner,
         repo,
         sourceNumber,
       );
 
       if (![targetOwner, localOwner].includes(sourcePR.creator)) {
-        await GitHubService.addCommentToPullRequest(
+        await VerboseGitHubService.addCommentToPullRequest(
           targetOwner,
           repo,
           targetPR.number,
@@ -80,7 +80,7 @@ export const sendPullRequest = defineCommand({
         );
       }
 
-      await GitHubService.addCommentToPullRequest(
+      await VerboseGitHubService.addCommentToPullRequest(
         sourceOwner,
         repo,
         sourceNumber,
@@ -88,7 +88,11 @@ export const sendPullRequest = defineCommand({
       );
 
       try {
-        await GitHubService.closePullRequest(sourceOwner, repo, sourceNumber);
+        await VerboseGitHubService.closePullRequest(
+          sourceOwner,
+          repo,
+          sourceNumber,
+        );
       } catch (error) {
         LogService.logError(error.toString());
       }
