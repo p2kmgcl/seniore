@@ -2,7 +2,7 @@ import { defineCommand } from '../define-command';
 import { LogService } from '../services/LogService';
 import { ConfigService } from '../services/ConfigService';
 import { VerboseGitHubService } from '../services/VerboseGitHubService';
-import { GitService } from '../services/GitService';
+import { VerboseGitService } from '../services/VerboseGitService';
 import { JiraService } from '../services/JiraService';
 
 const BRANCH_NAME_PATTERN = /^pr\/([a-zA-Z0-9-]+)\/([0-9]+)$/i;
@@ -30,12 +30,12 @@ export const sendPullRequest = defineCommand({
   ) => {
     const config = ConfigService.getConfig();
 
-    const title = await GitService.getLastCommitMessage();
-    const branch = await GitService.getCurrentBranchName();
-    const localOwner = await GitService.getRepositoryOwner();
-    const repo = await GitService.getRepositoryName();
+    const title = await VerboseGitService.getLastCommitMessage();
+    const branch = await VerboseGitService.getCurrentBranchName();
+    const localOwner = await VerboseGitService.getRepositoryOwner();
+    const repo = await VerboseGitService.getRepositoryName();
 
-    await GitService.pushBranch(branch);
+    await VerboseGitService.pushBranch(branch);
 
     const targetPR = await VerboseGitHubService.createPullRequest({
       sourceOwner: localOwner,
@@ -99,8 +99,8 @@ export const sendPullRequest = defineCommand({
     }
 
     if (!keepBranch) {
-      await GitService.checkoutBranch('master');
-      await GitService.deleteBranch(branch);
+      await VerboseGitService.checkoutBranch('master');
+      await VerboseGitService.deleteBranch(branch);
     }
 
     LogService.logText(targetPR.url);

@@ -1,7 +1,7 @@
 import { defineCommand } from '../define-command';
 import { LogService } from '../services/LogService';
 import { VerboseGitHubService } from '../services/VerboseGitHubService';
-import { GitService } from '../services/GitService';
+import { VerboseGitService } from '../services/VerboseGitService';
 
 export const listPullRequests = defineCommand({
   command: 'list-pull-requests',
@@ -14,8 +14,9 @@ export const listPullRequests = defineCommand({
     },
   ],
   handler: async (options: { owner: string }) => {
-    const owner = options.owner || (await GitService.getRepositoryOwner());
-    const repo = await GitService.getRepositoryName();
+    const owner =
+      options.owner || (await VerboseGitService.getRepositoryOwner());
+    const repo = await VerboseGitService.getRepositoryName();
     const pullRequests = await VerboseGitHubService.getPullRequests(
       owner,
       repo,
