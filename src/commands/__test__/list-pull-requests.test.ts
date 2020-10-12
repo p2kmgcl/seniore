@@ -13,6 +13,12 @@ const MockedGitService = GitService as jest.Mocked<typeof GitService>;
 const MockedGitHubService = GitHubService as jest.Mocked<typeof GitHubService>;
 
 describe('commands/list-pull-requests', () => {
+  beforeEach(() => {
+    MockedLogService.logProgress.mockImplementation(
+      (message, anything: unknown) => Promise.resolve(anything),
+    );
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
