@@ -3,7 +3,7 @@ import { LogService } from '../services/LogService';
 import { ConfigService } from '../services/ConfigService';
 import { VerboseGitHubService } from '../services/VerboseGitHubService';
 import { VerboseGitService } from '../services/VerboseGitService';
-import { JiraService } from '../services/JiraService';
+import { VerboseJiraService } from '../services/VerboseJiraService';
 
 const BRANCH_NAME_PATTERN = /^pr\/([a-zA-Z0-9-]+)\/([0-9]+)$/i;
 const COMMIT_MESSAGE_PATTERN = /^(LPS-[0-9]+)[ ]*(.*)$/i;
@@ -110,7 +110,7 @@ export const sendPullRequest = defineCommand({
       const targetJiraUser = config.githubUserToJiraUser[targetOwner];
 
       if (targetJiraUser) {
-        await JiraService.assignIssueToUser(
+        await VerboseJiraService.assignIssueToUser(
           issueId,
           targetJiraUser,
           targetPR.url,

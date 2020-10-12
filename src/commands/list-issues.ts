@@ -1,13 +1,13 @@
 import { defineCommand } from '../define-command';
 import { LogService } from '../services/LogService';
-import { JiraService } from '../services/JiraService';
+import { VerboseJiraService } from '../services/VerboseJiraService';
 
 export const listIssues = defineCommand({
   command: 'list-issues <boardId>',
   alias: 'li',
   description: 'list JIRA board issues',
   handler: async (boardId: string) => {
-    const issues = await JiraService.getBoardIssues(boardId);
+    const issues = await VerboseJiraService.getBoardIssues(boardId);
 
     LogService.logLines(
       issues.map((issue) => ({
