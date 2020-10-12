@@ -58,6 +58,7 @@
     "date-fns": "^2.16.1",
     "execa": "^4.0.3",
     "jira-client": "^6.21.1",
+    "ora": "^5.1.0",
     "update-notifier": "^5.0.0"
   },
   "devDependencies": {
