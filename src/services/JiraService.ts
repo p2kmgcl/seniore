@@ -1,7 +1,7 @@
 import { ConfigService } from './ConfigService';
 import JiraAPI from 'jira-client';
 
-interface Issue {
+export interface Issue {
   key: string;
   title: string;
   url: string;
