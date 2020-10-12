@@ -1,6 +1,6 @@
 import { defineCommand } from '../define-command';
 import { LogService } from '../services/LogService';
-import { GitHubService } from '../services/GitHubService';
+import { VerboseGitHubService } from '../services/VerboseGitHubService';
 
 export const listNotifications = defineCommand({
   command: 'list-notifications',
@@ -14,7 +14,7 @@ export const listNotifications = defineCommand({
     },
   ],
   handler: async (options: { clear: boolean }) => {
-    const notifications = await GitHubService.getNotifications();
+    const notifications = await VerboseGitHubService.getNotifications();
 
     LogService.logLines(
       notifications.map((notification) => ({
@@ -26,7 +26,7 @@ export const listNotifications = defineCommand({
     );
 
     if (options.clear) {
-      await GitHubService.clearNotifications();
+      await VerboseGitHubService.clearNotifications();
     }
   },
 });

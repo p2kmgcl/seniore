@@ -1,5 +1,5 @@
 import { defineCommand } from '../define-command';
-import { GitHubService } from '../services/GitHubService';
+import { VerboseGitHubService } from '../services/VerboseGitHubService';
 import { GitService } from '../services/GitService';
 
 export const checkoutPullRequest = defineCommand({
@@ -22,7 +22,7 @@ export const checkoutPullRequest = defineCommand({
     const repo = await GitService.getRepositoryName();
     const owner = options.owner || (await GitService.getRepositoryOwner());
 
-    const pr = await GitHubService.getPullRequest(owner, repo, number);
+    const pr = await VerboseGitHubService.getPullRequest(owner, repo, number);
 
     if (!pr) {
       throw new Error(`PR ${owner}/${repo}/${number} not found`);
