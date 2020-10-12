@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import ora from 'ora';
 
 export interface Line {
   id: string;
@@ -27,6 +28,21 @@ export const LogService = {
 
   logText(message: string): void {
     console.log(message);
+  },
+
+  async logProgress<T>(message: string, anything: T): Promise<T> {
+    const spinner = ora({
+      text: message,
+      spinner: 'dots',
+    }).start();
+
+    try {
+      await anything;
+    } finally {
+      spinner.stop();
+    }
+
+    return anything;
   },
 
   logLines(lines: Line[], noLinesMessage = ''): void {
