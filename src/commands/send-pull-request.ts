@@ -19,6 +19,12 @@ export const sendPullRequest = defineCommand({
       defaultValue: false,
     },
     {
+      definition: '-t, --test',
+      description:
+        'add ci:test:sf and ci:test:relevant comments to the created pull-request',
+      defaultValue: false,
+    },
+    {
       definition: '-k, --keep-branch',
       description: 'keep local branch instead of cleaning up',
       defaultValue: false,
@@ -26,7 +32,11 @@ export const sendPullRequest = defineCommand({
   ],
   handler: async (
     targetOwner: string,
-    { forward, keepBranch }: { forward: boolean; keepBranch: boolean },
+    {
+      forward,
+      keepBranch,
+      test,
+    }: { forward: boolean; keepBranch: boolean; test: boolean },
   ) => {
     const config = ConfigService.getConfig();
 
@@ -48,6 +58,22 @@ export const sendPullRequest = defineCommand({
 
     if (!targetPR) {
       throw new Error('Unknown error. The PR could not be created');
+    }
+
+    if (test) {
+      await VerboseGitHubService.addCommentToPullRequest(
+        targetOwner,
+        repo,
+        targetPR.number,
+        'ci:test:sf',
+      );
+
+      await VerboseGitHubService.addCommentToPullRequest(
+        targetOwner,
+        repo,
+        targetPR.number,
+        'ci:test:relevant',
+      );
     }
 
     if (forward) {
