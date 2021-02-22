@@ -87,6 +87,42 @@ describe('commands/send-pull-request', () => {
     );
   });
 
+  it('adds a ci:test:sf and ci:test:relevant comments if --test is specified', async () => {
+    await testCommand(sendPullRequest, ['--test', 'you']);
+
+    expect(MockedGitHubService.addCommentToPullRequest).toHaveBeenCalledWith(
+      'you',
+      repositoryName,
+      targetPRNumber,
+      'ci:test:sf',
+    );
+
+    expect(MockedGitHubService.addCommentToPullRequest).toHaveBeenCalledWith(
+      'you',
+      repositoryName,
+      targetPRNumber,
+      'ci:test:relevant',
+    );
+  });
+
+  it('adds a ci:test:sf and ci:test:relevant comments if -t is specified', async () => {
+    await testCommand(sendPullRequest, ['--test', 'you']);
+
+    expect(MockedGitHubService.addCommentToPullRequest).toHaveBeenCalledWith(
+      'you',
+      repositoryName,
+      targetPRNumber,
+      'ci:test:sf',
+    );
+
+    expect(MockedGitHubService.addCommentToPullRequest).toHaveBeenCalledWith(
+      'you',
+      repositoryName,
+      targetPRNumber,
+      'ci:test:relevant',
+    );
+  });
+
   it('adds a ci:forward comment if --forward is specified', async () => {
     await testCommand(sendPullRequest, ['--forward', 'you']);
 
