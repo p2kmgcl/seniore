@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { RunService } from './RunService';
 
 export const GitService = {
@@ -59,6 +60,25 @@ export const GitService = {
 
   async deleteBranch(branch: string): Promise<void> {
     await RunService.runCommand(`git branch -D ${branch}`);
+  },
+
+  async getModifiedFiles(): Promise<string[]> {
+    const baseDirectory = await GitService.getBaseDirectory();
+
+    return (
+      await RunService.runCommand('git diff --name-only master', {
+        cwd: baseDirectory,
+      })
+    )
+      .trim()
+      .split('\n')
+      .map((file) => resolve(baseDirectory, file));
+  },
+
+  getBaseDirectory(): Promise<string> {
+    return RunService.runCommand('git rev-parse --show-toplevel', {
+      cwd: resolve('.'),
+    });
   },
 
   async pushBranch(

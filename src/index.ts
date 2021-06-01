@@ -5,6 +5,7 @@ import { resolve } from 'path';
 import chalk from 'chalk';
 import { init } from './commands/init';
 import { checkoutPullRequest } from './commands/checkout-pull-request';
+import { deploy } from './commands/deploy';
 import { sendPullRequest } from './commands/send-pull-request';
 import { listIssues } from './commands/list-issues';
 import { listPullRequests } from './commands/list-pull-requests';
@@ -30,6 +31,7 @@ const unindent = (str: string): string =>
 [
   init,
   checkoutPullRequest,
+  deploy,
   sendPullRequest,
   listIssues,
   listPullRequests,
