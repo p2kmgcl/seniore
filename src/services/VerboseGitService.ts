@@ -37,6 +37,14 @@ export const VerboseGitService: typeof GitService = {
     return GitService.getRepositoryOwner();
   },
 
+  getBaseDirectory(): Promise<string> {
+    return GitService.getBaseDirectory();
+  },
+
+  getModifiedFiles(): Promise<string[]> {
+    return GitService.getModifiedFiles();
+  },
+
   async pushBranch(
     branch: string,
     { force = true, remote = 'origin' }: { force?: any; remote?: any } = {},
