@@ -14,6 +14,7 @@ import { LogService } from './services/LogService';
 import { GitHubService } from './services/GitHubService';
 import { ConfigService } from './services/ConfigService';
 import { JiraService } from './services/JiraService';
+import { gradlew } from './commands/gradlew';
 
 const program = new Command();
 
@@ -32,6 +33,7 @@ const unindent = (str: string): string =>
   init,
   checkoutPullRequest,
   deploy,
+  gradlew,
   sendPullRequest,
   listIssues,
   listPullRequests,
