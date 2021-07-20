@@ -182,9 +182,8 @@ export const GitHubService = {
 
   async getNotifications(): Promise<Notification[]> {
     try {
-      const {
-        data,
-      } = await octokit.activity.listNotificationsForAuthenticatedUser();
+      const { data } =
+        await octokit.activity.listNotificationsForAuthenticatedUser();
 
       return data.map((notification) => ({
         id: formatDistanceToNowStrict(new Date(notification.updated_at)),
