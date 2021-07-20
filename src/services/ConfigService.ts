@@ -59,11 +59,6 @@ export const ConfigService = {
         (JSON.parse(readFileSync(CONFIG_PATH, 'utf-8')) as ConfigurationSchema);
     } catch (error) {
       cachedConfig = DEFAULT_CONFIG;
-
-      LogService.logError(
-        'Configuration file doesnt exist or is not a JSON file. ' +
-          'You can create a new one with init command.',
-      );
     }
 
     return cachedConfig;
@@ -73,7 +68,7 @@ export const ConfigService = {
     const config = this.getConfig();
 
     if (!config || config === DEFAULT_CONFIG) {
-      return false;
+      return true;
     }
 
     const cleanedConfig = { ...config };
