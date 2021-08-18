@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { RunService } from './RunService';
 
@@ -72,7 +73,8 @@ export const GitService = {
     )
       .trim()
       .split('\n')
-      .map((file) => resolve(baseDirectory, file));
+      .map((file) => resolve(baseDirectory, file))
+      .filter((file) => existsSync(file));
   },
 
   getBaseDirectory(): Promise<string> {
