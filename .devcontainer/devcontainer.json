@@ -1,0 +1,12 @@
+{
+  "name": "NodeJS & TypeScript",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "12"
+    }
+  },
+  "postCreateCommand": "npm install -g npm && npm install",
+  "postStartCommand": "npm run test -- --watch",
+  "remoteUser": "node"
+}

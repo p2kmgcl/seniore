@@ -1,6 +1,7 @@
 *.png
 .husky
 build
+Dockerfile
 LICENSE
 .editorconfig
 .gitignore
