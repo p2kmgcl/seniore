@@ -15,6 +15,7 @@ import { GitHubService } from './services/GitHubService';
 import { ConfigService } from './services/ConfigService';
 import { JiraService } from './services/JiraService';
 import { gradlew } from './commands/gradlew';
+import { checkoutBranch } from './commands/checkout-branch';
 
 const program = new Command();
 
@@ -31,6 +32,7 @@ const unindent = (str: string): string =>
 
 [
   init,
+  checkoutBranch,
   checkoutPullRequest,
   deploy,
   gradlew,
