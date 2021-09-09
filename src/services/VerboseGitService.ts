@@ -2,6 +2,13 @@ import { GitService } from './GitService';
 import { LogService } from './LogService';
 
 export const VerboseGitService: typeof GitService = {
+  async createBranch(name: string, fromBranch?: string): Promise<void> {
+    return LogService.logProgress(
+      `Creating branch ${name}${fromBranch ? `from ${fromBranch}` : ''}`,
+      GitService.createBranch(name, fromBranch),
+    );
+  },
+
   getCurrentBranchName(): Promise<string> {
     return GitService.getCurrentBranchName();
   },
@@ -25,8 +32,23 @@ export const VerboseGitService: typeof GitService = {
     return GitService.deleteBranch(branch);
   },
 
+  async fetchBranch(
+    remote: string,
+    branch: string,
+    localBranch: string = branch,
+  ): Promise<void> {
+    return LogService.logProgress(
+      `Fetching ${branch} from ${remote} into ${localBranch}`,
+      GitService.fetchBranch(remote, branch, localBranch),
+    );
+  },
+
   getLastCommitMessage(): Promise<string> {
     return GitService.getLastCommitMessage();
+  },
+
+  getRemotes(): Promise<string[]> {
+    return GitService.getRemotes();
   },
 
   async getRepositoryName(): Promise<string> {

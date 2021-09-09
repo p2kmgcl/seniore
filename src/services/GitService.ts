@@ -3,6 +3,16 @@ import { resolve } from 'path';
 import { RunService } from './RunService';
 
 export const GitService = {
+  async createBranch(name: string, fromBranch = ''): Promise<void> {
+    try {
+      await RunService.runCommand(`git branch ${name} ${fromBranch}`);
+    } catch (error) {
+      throw new Error(
+        `Cannot create branc ${name}${fromBranch ? `from ${fromBranch}` : ''}`,
+      );
+    }
+  },
+
   getLastCommitMessage(): Promise<string> {
     return RunService.runCommand('git log -1 --pretty=%s');
   },
@@ -63,6 +73,14 @@ export const GitService = {
     await RunService.runCommand(`git branch -D ${branch}`);
   },
 
+  async fetchBranch(
+    remote: string,
+    branch: string,
+    localBranch: string = branch,
+  ): Promise<void> {
+    await RunService.runCommand(`git fetch ${remote} ${branch}:${localBranch}`);
+  },
+
   async getModifiedFiles(): Promise<string[]> {
     const baseDirectory = await GitService.getBaseDirectory();
 
@@ -75,6 +93,10 @@ export const GitService = {
       .split('\n')
       .map((file) => resolve(baseDirectory, file))
       .filter((file) => existsSync(file));
+  },
+
+  async getRemotes(): Promise<string[]> {
+    return (await RunService.runCommand('git remote')).trim().split('\n');
   },
 
   getBaseDirectory(): Promise<string> {
