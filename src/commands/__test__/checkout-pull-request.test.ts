@@ -66,7 +66,7 @@ describe('commands/checkout-pull-request', () => {
 
   it('throws an error if specified number is not a number', async () => {
     await expect(testCommand(checkoutPullRequest, ['OLa'])).rejects.toThrow(
-      new Error('Invalid PR number "OLa"'),
+      new Error('Invalid PR number'),
     );
   });
 
