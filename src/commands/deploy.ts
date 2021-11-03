@@ -52,14 +52,30 @@ export const deploy = defineCommand({
         throw new Error('no modified modules');
       }
 
+      const errors: Record<string, Error> = {};
+
+      LogService.logText(`Found ${modifiedModules.size} module(s)`);
+
       for (const modifiedModule of modifiedModules) {
         LogService.logText(
-          `Module: ${modifiedModule.replace(baseDirectory, '')}`,
+          `\nModule: ${modifiedModule.replace(baseDirectory, '')}`,
         );
 
-        await RunService.runCommand(
-          `${gradlew} ${clean ? 'clean' : ''} deploy -Dbuild=portal`,
-          { cwd: modifiedModule, bindIO: true },
+        try {
+          await RunService.runCommand(
+            `${gradlew} ${clean ? 'clean' : ''} deploy -Dbuild=portal`,
+            { cwd: modifiedModule, bindIO: true },
+          );
+        } catch (error) {
+          errors[modifiedModule] = error as Error;
+        }
+      }
+
+      if (errors.length) {
+        throw new Error(
+          `Errors found during deploy:\n${Object.entries(errors)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join('\n')}`,
         );
       }
     } else {
