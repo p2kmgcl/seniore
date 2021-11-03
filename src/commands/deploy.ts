@@ -52,7 +52,7 @@ export const deploy = defineCommand({
         throw new Error('no modified modules');
       }
 
-      const errors: Record<string, Error> = {};
+      const errorMap: Record<string, Error> = {};
 
       LogService.logText(`Found ${modifiedModules.size} module(s)`);
 
@@ -67,13 +67,13 @@ export const deploy = defineCommand({
             { cwd: modifiedModule, bindIO: true },
           );
         } catch (error) {
-          errors[modifiedModule] = error as Error;
+          errorMap[modifiedModule] = error as Error;
         }
       }
 
-      if (errors.length) {
+      if (Object.keys(errorMap).length) {
         throw new Error(
-          `Errors found during deploy:\n${Object.entries(errors)
+          `Errors found during deploy:\n${Object.entries(errorMap)
             .map(([key, value]) => `${key}: ${value}`)
             .join('\n')}`,
         );
