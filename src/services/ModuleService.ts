@@ -6,7 +6,7 @@ export const ModuleService = {
     if (statSync(initialPath).isDirectory()) {
       const children = readdirSync(initialPath);
 
-      if (children.includes('bnd.bnd')) {
+      if (children.includes('build.gradle')) {
         return initialPath;
       }
     }
