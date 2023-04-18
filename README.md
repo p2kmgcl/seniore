@@ -1,3 +1,6 @@
+> ⚠ Moving to [chachi-shell](https://github.com/p2kmgcl/chachi-shell/tree/master/seniore).
+> This project is not being maintained, and the code will be migrated to Rust.
+
 <h1 align="center">
   <img
     name="logo"
